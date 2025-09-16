@@ -25,6 +25,7 @@ jobs:
           deno-version: v2.x
       - uses: pnpm/action-setup@v4
         with:
-            version: 10
+            version: 10.13.1
+      - run: corepack enable
       - run: bun install
       - run: bun run test

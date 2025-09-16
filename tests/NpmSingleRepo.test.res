@@ -6,13 +6,17 @@ describe("A single ReScript project using npm as package manager", () => {
   let orginalCwd: string = Process.cwd(Process.process)
 
   beforeAllAsync(async () => {
-    await changeCwdToRepository(repo)
-    let _ = await sh`npm install`
-    let _ = await sh`npm update rescript`
-    switch Process.process.env {
-    | dict{"CI": "true"} => Console.log("This test is running in CI")
-    | _ => ()
-    }
+    await changeCwdToRepository(
+      repo,
+      async () => {
+        let _ = await sh`npm install`
+        let _ = await sh`npm update rescript`
+        switch Process.process.env {
+        | dict{"CI": "true"} => Console.log("This test is running in CI")
+        | _ => ()
+        }
+      },
+    )
   })
 
   afterAllAsync(async () => {

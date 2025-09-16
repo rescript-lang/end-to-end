@@ -16,9 +16,13 @@ describe("A single ReScript project using npm as package manager", () => {
   let orginalCwd: string = Process.cwd(Process.process)
 
   beforeAllAsync(async () => {
-    await changeCwdToRepository(repo)
-    let _ = await sh`pnpm install`
-    let _ = await sh`pnpm update rescript`
+    await changeCwdToRepository(
+      repo,
+      async () => {
+        let _ = await sh`pnpm install`
+        let _ = await sh`pnpm update rescript`
+      },
+    )
   })
 
   afterAllAsync(async () => {

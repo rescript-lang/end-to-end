@@ -11,9 +11,19 @@ let repo = Nodepath.resolve(import.meta.dir, "../repos/pnpm/single-project");
 Buntest.describe("A single ReScript project using npm as package manager", () => {
   let orginalCwd = Process.cwd();
   Buntest.beforeAll(async () => {
-    await Principium.changeCwdToRepository(repo);
-    await $$Bun.$`pnpm install`;
-    await $$Bun.$`pnpm update rescript`;
+    try {
+      await Principium.changeCwdToRepository(repo);
+      await $$Bun.$`pnpm install`;
+      await $$Bun.$`pnpm update rescript`;
+      return;
+    } catch (exn) {
+      Process.chdir(orginalCwd);
+      throw {
+        RE_EXN_ID: "Failure",
+        _1: "beforeAll failed; restored original CWD",
+        Error: new Error()
+      };
+    }
   });
   Buntest.afterAll(async () => {
     Process.chdir(orginalCwd);

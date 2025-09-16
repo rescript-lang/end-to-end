@@ -1,6 +1,7 @@
 // Sounded fancy right 😉
 
-let changeCwdToRepository = async (repo: string) => {
+let changeCwdToRepository = async (repo: string, afterChangeCwd: unit => promise<unit>) => {
+  let orginalCwd: string = Process.cwd(Process.process)
   let repoExists = await Fs.PromiseAPI.access(#Str(repo))
   ->Promise.thenResolve(_ => true)
   ->Promise.catch(_ => Promise.resolve(false))
@@ -11,4 +12,12 @@ let changeCwdToRepository = async (repo: string) => {
   }
 
   Process.chdir(Process.process, repo)
+  try {
+    afterChangeCwd()
+  } catch {
+  | _ => {
+      Process.chdir(Process.process, orginalCwd)
+      throw(Failure("afterChangeCwd failed; restored original CWD"))
+    }
+  }
 }
