@@ -12,7 +12,6 @@ Buntest.describe("A single ReScript project using pnpm as package manager", () =
   let orginalCwd = Process.cwd();
   Buntest.beforeAll(async () => await Principium.changeCwdToRepository(repo, async () => {
     await $$Bun.$`pnpm install`;
-    await $$Bun.$`pnpm update rescript`;
   }));
   Buntest.afterAll(async () => {
     Process.chdir(orginalCwd);
