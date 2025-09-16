@@ -13,7 +13,7 @@ let changeCwdToRepository = async (repo: string, afterChangeCwd: unit => promise
 
   Process.chdir(Process.process, repo)
   try {
-    afterChangeCwd()
+    await afterChangeCwd()
   } catch {
   | _ => {
       Process.chdir(Process.process, orginalCwd)

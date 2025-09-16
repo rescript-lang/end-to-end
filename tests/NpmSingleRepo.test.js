@@ -10,26 +10,15 @@ let repo = Nodepath.resolve(import.meta.dir, "../repos/npm/single-project");
 
 Buntest.describe("A single ReScript project using npm as package manager", () => {
   let orginalCwd = Process.cwd();
-  Buntest.beforeAll(async () => {
-    try {
-      await Principium.changeCwdToRepository(repo);
-      await $$Bun.$`npm install`;
-      await $$Bun.$`npm update rescript`;
-      let match = Process.env;
-      if (match.CI !== "true") {
-        return;
-      }
-      console.log("This test is running in CI");
+  Buntest.beforeAll(async () => await Principium.changeCwdToRepository(repo, async () => {
+    await $$Bun.$`npm install`;
+    await $$Bun.$`npm update rescript`;
+    let match = Process.env;
+    if (match.CI !== "true") {
       return;
-    } catch (exn) {
-      Process.chdir(orginalCwd);
-      throw {
-        RE_EXN_ID: "Failure",
-        _1: "beforeAll failed; restored original CWD",
-        Error: new Error()
-      };
     }
-  });
+    console.log("This test is running in CI");
+  }));
   Buntest.afterAll(async () => {
     Process.chdir(orginalCwd);
   });

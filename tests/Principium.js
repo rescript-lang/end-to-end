@@ -4,7 +4,8 @@ import * as Nodefs from "node:fs";
 import * as Process from "process";
 import * as Stdlib_Promise from "@rescript/runtime/lib/es6/Stdlib_Promise.js";
 
-async function changeCwdToRepository(repo) {
+async function changeCwdToRepository(repo, afterChangeCwd) {
+  let orginalCwd = Process.cwd();
   let repoExists = await Stdlib_Promise.$$catch(Nodefs.promises.access(repo).then(() => true), param => Promise.resolve(false));
   if (!repoExists) {
     console.log("Repo does not exist");
@@ -15,6 +16,16 @@ async function changeCwdToRepository(repo) {
     };
   }
   Process.chdir(repo);
+  try {
+    return await afterChangeCwd();
+  } catch (exn) {
+    Process.chdir(orginalCwd);
+    throw {
+      RE_EXN_ID: "Failure",
+      _1: "afterChangeCwd failed; restored original CWD",
+      Error: new Error()
+    };
+  }
 }
 
 export {
