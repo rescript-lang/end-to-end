@@ -12,5 +12,5 @@
   "warnings": {
     "number": "-30"
   },
-  "compiler-flags": ["-open RescriptBun", "-open RescriptBun.Globals"]
+  "compiler-flags": ["-open RescriptBun", "-open RescriptBun.Globals", "-open Principium"]
 }

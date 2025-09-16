@@ -6,30 +6,22 @@ import * as Buntest from "bun:test";
 import * as Nodepath from "node:path";
 import * as Principium from "./Principium.js";
 
-let repo = Nodepath.resolve(import.meta.dir, "../repos/npm/single-project");
+let repo = Nodepath.resolve(import.meta.dir, "../repos/pnpm/single-project");
 
 Buntest.describe("A single ReScript project using npm as package manager", () => {
   let orginalCwd = Process.cwd();
   Buntest.beforeAll(async () => {
     await Principium.changeCwdToRepository(repo);
-    await $$Bun.$`npm install`;
-    let match = Process.env;
-    if (match.CI !== "true") {
-      return;
-    }
-    console.log("This test is running in CI");
+    await $$Bun.$`pnpm install`;
   });
   Buntest.afterAll(async () => {
     Process.chdir(orginalCwd);
   });
-  Buntest.test("should always pass", async () => {
-    console.log(repo);
-  });
   Buntest.test("should clean", async () => {
-    await $$Bun.$`npx rescript clean`;
+    await $$Bun.$` npm run clean`;
   });
   Buntest.test("should build", async () => {
-    await $$Bun.$`npx rescript build`;
+    await $$Bun.$`pnpm run build`;
   });
 });
 

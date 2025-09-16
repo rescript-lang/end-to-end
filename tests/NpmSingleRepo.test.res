@@ -6,7 +6,7 @@ describe("A single ReScript project using npm as package manager", () => {
   let orginalCwd: string = Process.cwd(Process.process)
 
   beforeAllAsync(async () => {
-    Process.chdir(Process.process, repo)
+    await changeCwdToRepository(repo)
     let _ = await sh`npm install`
     switch Process.process.env {
     | dict{"CI": "true"} => Console.log("This test is running in CI")

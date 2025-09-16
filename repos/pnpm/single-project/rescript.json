@@ -1,0 +1,4 @@
+{
+    "name": "bug",
+    "sources": [{ "dir": ".", "files": ["bug.res"] }]
+  }
