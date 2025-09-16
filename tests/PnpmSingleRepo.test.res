@@ -12,7 +12,7 @@ See https://github.com/rescript-lang/rescript/issues/7526
 
 let repo = Path.resolve([import.meta.dir, "../repos/pnpm/single-project"])
 
-describe("A single ReScript project using npm as package manager", () => {
+describe("A single ReScript project using pnpm as package manager", () => {
   let orginalCwd: string = Process.cwd(Process.process)
 
   beforeAllAsync(async () => {
@@ -20,7 +20,6 @@ describe("A single ReScript project using npm as package manager", () => {
       repo,
       async () => {
         let _ = await sh`pnpm install`
-        let _ = await sh`pnpm update rescript`
       },
     )
   })
@@ -30,7 +29,7 @@ describe("A single ReScript project using npm as package manager", () => {
   })
 
   testAsync("should clean", async () => {
-    let _ = await sh` npm run clean`
+    let _ = await sh`pnpm run clean`
   })
 
   testAsync("should build", async () => {

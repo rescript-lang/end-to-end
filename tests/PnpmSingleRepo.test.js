@@ -8,7 +8,7 @@ import * as Principium from "./Principium.js";
 
 let repo = Nodepath.resolve(import.meta.dir, "../repos/pnpm/single-project");
 
-Buntest.describe("A single ReScript project using npm as package manager", () => {
+Buntest.describe("A single ReScript project using pnpm as package manager", () => {
   let orginalCwd = Process.cwd();
   Buntest.beforeAll(async () => await Principium.changeCwdToRepository(repo, async () => {
     await $$Bun.$`pnpm install`;
@@ -18,7 +18,7 @@ Buntest.describe("A single ReScript project using npm as package manager", () =>
     Process.chdir(orginalCwd);
   });
   Buntest.test("should clean", async () => {
-    await $$Bun.$` npm run clean`;
+    await $$Bun.$`pnpm run clean`;
   });
   Buntest.test("should build", async () => {
     await $$Bun.$`pnpm run build`;
