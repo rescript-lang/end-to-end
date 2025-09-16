@@ -18,6 +18,7 @@ describe("A single ReScript project using npm as package manager", () => {
   beforeAllAsync(async () => {
     await changeCwdToRepository(repo)
     let _ = await sh`pnpm install`
+    let _ = await sh`pnpm update rescript`
   })
 
   afterAllAsync(async () => {

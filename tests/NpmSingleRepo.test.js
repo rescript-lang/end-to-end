@@ -13,6 +13,7 @@ Buntest.describe("A single ReScript project using npm as package manager", () =>
   Buntest.beforeAll(async () => {
     await Principium.changeCwdToRepository(repo);
     await $$Bun.$`npm install`;
+    await $$Bun.$`npm update rescript`;
     let match = Process.env;
     if (match.CI !== "true") {
       return;
