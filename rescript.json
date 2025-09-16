@@ -1,0 +1,16 @@
+{
+  "name": "rescript-end-to-end",
+  "sources": ["tests"],
+  "package-specs": [
+    {
+      "module": "esmodule",
+      "in-source": true
+    }
+  ],
+  "suffix": ".js",
+  "dependencies": ["rescript-bun"],
+  "warnings": {
+    "number": "-30"
+  },
+  "compiler-flags": ["-open RescriptBun", "-open RescriptBun.Globals"]
+}

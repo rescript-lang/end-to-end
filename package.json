@@ -1,0 +1,21 @@
+{
+  "name": "rescript-end-to-end",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest",
+    "rescript-bun": "^2.0.1"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "rescript": "^12.0.0-beta.11"
+  },
+  "scripts": {
+    "pretest": "rescript build",
+    "test": "bun test ./tests",
+    "fmt": "rescript format"
+  }
+}
