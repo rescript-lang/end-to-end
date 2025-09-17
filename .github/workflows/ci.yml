@@ -6,7 +6,7 @@ on:
   pull_request:
     branches: [main]
   schedule:
-    - cron: '0 0 * * *'
+    - cron: "0 0 * * *"
 
 jobs:
   main:
@@ -25,7 +25,18 @@ jobs:
           deno-version: v2.x
       - uses: pnpm/action-setup@v4
         with:
-            version: 10.13.1
+          version: 10.13.1
       - run: corepack enable
       - run: bun install
       - run: bun run test
+      - name: Discord notification
+
+  notify:
+    needs: [main]
+    runs-on: ubuntu-latest
+    if: failure()
+    steps:
+      - uses: lacherogwu/failed-jobs-discord-notification-action@v1
+        with:
+          discord_webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
+          needs_json: ${{ toJSON(needs) }}
