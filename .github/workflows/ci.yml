@@ -29,12 +29,11 @@ jobs:
       - run: corepack enable
       - run: bun install
       - run: bun run test
-      - name: Discord notification
 
   notify:
-    needs: [main]
     runs-on: ubuntu-latest
-    if: failure()
+    needs: main
+    if: ${{ failure() && github.ref == 'refs/heads/main' }}
     steps:
       - uses: lacherogwu/failed-jobs-discord-notification-action@v1
         with:
