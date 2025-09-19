@@ -38,6 +38,3 @@ report.[0-9]_.[0-9]_.[0-9]_.[0-9]_.json
 
 # ReScript
 lib/
-
-hackwaly-test/
-repos/deno/
