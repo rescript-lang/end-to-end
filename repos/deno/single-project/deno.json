@@ -7,6 +7,6 @@
   },
   "imports": {
     "@rescript/webapi": "npm:@rescript/webapi@^0.1.0-experimental-535a674",
-    "rescript": "npm:rescript@12.0.0-beta.12"
+    "rescript": "npm:rescript@12.0.0-beta.13"
   }
 }
