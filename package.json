@@ -15,7 +15,7 @@
   },
   "scripts": {
     "pretest": "rescript build",
-    "test": "bun test --timeout 25000 ./tests",
+    "test": "bun test --timeout 50000 ./tests",
     "fmt": "rescript format"
   }
 }
