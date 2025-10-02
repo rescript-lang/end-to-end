@@ -1,0 +1,19 @@
+{
+  "name": "b",
+  "version": "1.0.0",
+  "private": false,
+  "type": "module",
+  "main": "index.js",
+  "exports": "./index.js",
+  "scripts": {
+    "build": "echo \"no build\"",
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "rescript": "catalog:",
+    "a": "workspace:^1.0.0"
+  },
+  "license": "ISC"
+}
+
+

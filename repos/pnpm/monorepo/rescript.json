@@ -1,0 +1,10 @@
+{
+  "name": "pnpm-monorepo",
+  "package-specs": {
+    "module": "esmodule",
+    "in-source": true
+  },
+  "suffix": ".res.mjs",
+  "dependencies": ["a", "b"],
+  "compiler-flags": []
+}
