@@ -3,7 +3,10 @@
 
 let a = 1;
 
+let x = "e";
+
 export {
   a,
+  x,
 }
 /* No side effect */
