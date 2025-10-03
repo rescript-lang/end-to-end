@@ -1,0 +1,21 @@
+{
+  "name": "pnpm-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rescript",
+    "clean": "rescript clean"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.15.1",
+  "dependencies": {
+    "rescript": "catalog:",
+    "a": "workspace:*",
+    "b": "workspace:*"
+  }
+}

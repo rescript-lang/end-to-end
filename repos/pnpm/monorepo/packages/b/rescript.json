@@ -1,0 +1,5 @@
+{
+    "name": "b",
+    "sources": ["src"],
+    "dependencies": ["a"]
+}

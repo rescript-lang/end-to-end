@@ -1,0 +1,1 @@
+Console.log(A.a + 2)
