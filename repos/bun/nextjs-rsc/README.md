@@ -19,7 +19,7 @@ The default compiler is the latest published master build from pkg.pr.new. To te
 a PR or release instead:
 
 ```sh
-RESCRIPT_PACKAGE=https://pkg.pr.new/rescript-lang/rescript@8886 bun run test:nextjs-rsc
+RESCRIPT_PACKAGE=8886 bun run test:nextjs-rsc
 RESCRIPT_PACKAGE=12.3.1 bun run test:nextjs-rsc
 ```
 
@@ -27,8 +27,8 @@ For a before/after comparison, provide an optional baseline that is expected to
 fail at the original nested `.make` access during Next.js prerendering:
 
 ```sh
-RESCRIPT_BASELINE=https://pkg.pr.new/rescript-lang/rescript@58f1bd223b455d60990dbce94b77720644f98bf9 \
-RESCRIPT_PACKAGE=https://pkg.pr.new/rescript-lang/rescript@8886 \
+RESCRIPT_BASELINE=58f1bd223b455d60990dbce94b77720644f98bf9 \
+RESCRIPT_PACKAGE=8886 \
 bun run test:nextjs-rsc
 ```
 
@@ -40,9 +40,14 @@ untouched. Moving pkg.pr.new refs are resolved to immutable commit URLs, recorde
 alongside build logs and Playwright results under `artifacts/nextjs-rsc/`. Chromium
 is installed automatically; the production server uses port 3237.
 
-The **CI** GitHub workflow exposes the same optional `compiler` and `baseline`
-inputs. Providing `compiler` explicitly runs this compatibility check; omitting it
-runs the existing package-manager smoke tests. Framework tests do not run on a schedule.
+To run on GitHub, open [Next.js RSC compatibility](https://github.com/rescript-lang/end-to-end/actions/workflows/validate-nextjs-rsc.yml),
+click **Run workflow**, and enter `8886` in **compiler** to test that PR. Leave
+**baseline** empty for a normal compatibility check. Both inputs accept `master`,
+a PR number (or `pr:8886`), a commit SHA, an npm version/tag, or a package URL.
+
+GitHub displays the manual form once the workflow is on the default branch. This
+dedicated workflow runs only when explicitly invoked; the package-manager smoke
+tests keep their existing CI workflow.
 
 Compiler implementation: https://github.com/rescript-lang/rescript/pull/8886
 Original PoC: https://github.com/rescript-lang/rescript/pull/8293

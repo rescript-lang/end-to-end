@@ -1,13 +1,12 @@
 import { cp, mkdir, mkdtemp, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
+import { compilerPackage } from "./compiler-package.js";
 
 const source = resolve(import.meta.dirname, "../repos/bun/nextjs-rsc");
 const artifacts = resolve(import.meta.dirname, "../artifacts/nextjs-rsc");
-const compiler =
-  process.env.RESCRIPT_PACKAGE ??
-  "https://pkg.pr.new/rescript-lang/rescript@master";
-const baseline = process.env.RESCRIPT_BASELINE;
+const compiler = process.env.RESCRIPT_PACKAGE ?? "master";
+const baseline = process.env.RESCRIPT_BASELINE?.trim();
 
 class CommandFailure extends Error {
   constructor(args, code, output) {
@@ -15,21 +14,6 @@ class CommandFailure extends Error {
     this.command = args;
     this.output = output;
   }
-}
-
-// pkg.pr.new's moving refs must resolve afresh, even when Bun has cached a lock.
-async function pinCompiler(spec) {
-  if (!spec.startsWith("https://pkg.pr.new/")) return spec;
-  const response = await fetch(spec, { method: "HEAD" });
-  if (!response.ok)
-    throw new Error(
-      `Compiler package unavailable (${response.status}): ${spec}`,
-    );
-  const commit = response.headers.get("x-commit-key")?.split(":").at(-1);
-  if (!commit || !/^[a-f0-9]{40}$/.test(commit)) {
-    throw new Error(`Missing compiler commit in pkg.pr.new response: ${spec}`);
-  }
-  return spec.replace(/@[^@/]+$/, `@${commit}`);
 }
 
 async function command(args, cwd, log) {
@@ -56,7 +40,7 @@ async function command(args, cwd, log) {
 }
 
 async function check(spec, label) {
-  const pinned = await pinCompiler(spec);
+  const pinned = await compilerPackage(spec);
   const project = await mkdtemp(join(tmpdir(), "rescript-nextjs-rsc-"));
   const logs = join(artifacts, label);
   await rm(logs, { recursive: true, force: true });

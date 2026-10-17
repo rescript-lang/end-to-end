@@ -1,0 +1,39 @@
+name: Next.js RSC compatibility
+run-name: Next.js RSC compatibility (${{ inputs.compiler }})
+
+on:
+  workflow_dispatch:
+    inputs:
+      compiler:
+        description: "Compiler: master, PR number (8886), commit SHA, npm version/tag, or package URL"
+        required: true
+        default: master
+        type: string
+      baseline:
+        description: "Optional compiler expected to reproduce the nested .make failure (same formats)"
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  nextjs-rsc:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - run: bun test scripts/compiler-package.test.js
+      - run: bun run test:nextjs-rsc
+        env:
+          RESCRIPT_PACKAGE: ${{ inputs.compiler }}
+          RESCRIPT_BASELINE: ${{ inputs.baseline }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: nextjs-rsc-results
+          path: artifacts/nextjs-rsc

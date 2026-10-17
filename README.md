@@ -40,10 +40,12 @@ Framework compatibility samples can also be run separately. The
 browser interaction with a selectable compiler package:
 
 ```sh
-RESCRIPT_PACKAGE=https://pkg.pr.new/rescript-lang/rescript@8886 bun run test:nextjs-rsc
+RESCRIPT_PACKAGE=8886 bun run test:nextjs-rsc
 ```
 
-Its GitHub workflow is manually dispatched, so compiler PR builds are tested on demand.
+Or open [Next.js RSC compatibility](https://github.com/rescript-lang/end-to-end/actions/workflows/validate-nextjs-rsc.yml),
+click **Run workflow**, and enter a compiler PR number. Compiler PR builds are
+tested on demand.
 
 ## Contributing a sample
 

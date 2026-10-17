@@ -8,19 +8,9 @@ on:
   schedule:
     - cron: "0 0 * * *"
   workflow_dispatch:
-    inputs:
-      compiler:
-        description: Optional ReScript version or pkg.pr.new URL for the Next.js/RSC test
-        required: false
-        type: string
-      baseline:
-        description: Optional compiler package expected to reproduce the nested JSX failure
-        required: false
-        type: string
 
 jobs:
   main:
-    if: ${{ github.event_name != 'workflow_dispatch' || inputs.compiler == '' }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -40,28 +30,6 @@ jobs:
       - run: corepack enable
       - run: bun install
       - run: bun run test
-
-  nextjs-rsc:
-    if: ${{ github.event_name == 'workflow_dispatch' && inputs.compiler != '' }}
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    permissions:
-      contents: read
-    steps:
-      - uses: actions/checkout@v4
-      - uses: oven-sh/setup-bun@v2
-      - uses: actions/setup-node@v5
-        with:
-          node-version: 22
-      - run: bun run test:nextjs-rsc
-        env:
-          RESCRIPT_PACKAGE: ${{ inputs.compiler }}
-          RESCRIPT_BASELINE: ${{ inputs.baseline }}
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: nextjs-rsc-results
-          path: artifacts/nextjs-rsc
 
   notify:
     runs-on: ubuntu-latest
