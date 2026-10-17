@@ -1,0 +1,4 @@
+.next/
+*.res.js
+test-results/
+playwright-report/

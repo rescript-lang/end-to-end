@@ -35,6 +35,16 @@ Notes:
   - `repos/deno/single-project`
 - `tests/` contains Bun-powered tests that run each sample’s install/clean/build commands.
 
+Framework compatibility samples can also be run separately. The
+[Next.js/RSC sample](repos/bun/nextjs-rsc/README.md) checks production rendering and
+browser interaction with a selectable compiler package:
+
+```sh
+RESCRIPT_PACKAGE=https://pkg.pr.new/rescript-lang/rescript@8886 bun run test:nextjs-rsc
+```
+
+Its GitHub workflow is manually dispatched, so compiler PR builds are tested on demand.
+
 ## Contributing a sample
 
 We’re grateful for any repro you can share. Open a PR with our template and tell us:
