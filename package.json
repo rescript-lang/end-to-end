@@ -14,6 +14,7 @@
     "rescript": "^12.0.0-beta.11"
   },
   "scripts": {
+    "test:nextjs-rsc": "bun scripts/nextjs-rsc.js",
     "pretest": "rescript build",
     "test": "bun test --timeout 50000 ./tests",
     "fmt": "rescript format"
