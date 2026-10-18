@@ -1,11 +1,11 @@
 name: Next.js RSC compatibility
-run-name: Next.js RSC compatibility (${{ inputs.compiler }})
+run-name: Next.js RSC compatibility (${{ inputs.compiler }}, ${{ inputs.scenario }})
 
 on:
   workflow_dispatch:
     inputs:
       compiler:
-        description: "Compiler: master, PR number (8886), commit SHA, npm version/tag, or package URL"
+        description: "Compiler: master, PR number (8904), commit SHA, npm version/tag, or package URL"
         required: true
         default: master
         type: string
@@ -13,6 +13,17 @@ on:
         description: "Optional compiler expected to reproduce the nested .make failure (same formats)"
         required: false
         type: string
+      scenario:
+        description: "Scenario to test (all reports each case independently)"
+        required: true
+        default: all
+        type: choice
+        options:
+          - all
+          - nested
+          - incremental
+          - awaited
+          - reexport
 
 permissions:
   contents: read
@@ -32,6 +43,7 @@ jobs:
         env:
           RESCRIPT_PACKAGE: ${{ inputs.compiler }}
           RESCRIPT_BASELINE: ${{ inputs.baseline }}
+          RESCRIPT_SCENARIO: ${{ inputs.scenario }}
       - uses: actions/upload-artifact@v4
         if: always()
         with:

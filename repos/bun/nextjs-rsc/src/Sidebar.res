@@ -12,6 +12,7 @@ module Provider = {
       {children}
     </section>
   }
+  // Incremental test: rebind this component without changing its interface.
 }
 
 module Group = {

@@ -1,0 +1,43 @@
+name: Verify Next.js export contracts
+
+on:
+  push:
+    branches: [test/nextjs-rsc-export-contracts]
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: signature-derived
+            compiler: 93962f9715935ab90ac6f0f32ee9be9666306e68
+            scenario: all
+            baseline: 58f1bd223b455d60990dbce94b77720644f98bf9
+          - name: implementation-derived
+            compiler: ee81531f49bda16fecf77e2c0563ae6d9a5a31ec
+            scenario: incremental
+            baseline: ""
+    name: ${{ matrix.name }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - run: bun test scripts/compiler-package.test.js
+      - run: bun run test:nextjs-rsc
+        env:
+          RESCRIPT_PACKAGE: ${{ matrix.compiler }}
+          RESCRIPT_SCENARIO: ${{ matrix.scenario }}
+          RESCRIPT_BASELINE: ${{ matrix.baseline }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: nextjs-${{ matrix.name }}
+          path: artifacts/nextjs-rsc
