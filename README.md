@@ -40,12 +40,14 @@ Framework compatibility samples can also be run separately. The
 browser interaction with a selectable compiler package:
 
 ```sh
-RESCRIPT_PACKAGE=8886 bun run test:nextjs-rsc
+RESCRIPT_PACKAGE=8904 bun run test:nextjs-rsc
 ```
 
 Or open [Next.js RSC compatibility](https://github.com/rescript-lang/end-to-end/actions/workflows/validate-nextjs-rsc.yml),
 click **Run workflow**, and enter a compiler PR number. Compiler PR builds are
-tested on demand.
+tested on demand. The fixture checks static nested components, implementation-only
+rebuilds, awaited module namespaces, and server-side re-exports. Use
+`RESCRIPT_SCENARIO=incremental` (or the workflow's scenario input) to isolate a case.
 
 ## Contributing a sample
 

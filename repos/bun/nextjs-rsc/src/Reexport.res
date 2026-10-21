@@ -1,0 +1,1 @@
+module Provider = Sidebar.Provider
