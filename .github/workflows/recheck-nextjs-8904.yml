@@ -1,0 +1,31 @@
+name: Recheck Next.js against compiler 8904
+run-name: Next.js RSC compatibility (63a47ff297, all)
+
+on:
+  push:
+    branches:
+      - test/recheck-8904-63a47ff
+
+permissions:
+  contents: read
+
+jobs:
+  nextjs-rsc:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - run: bun test scripts/compiler-package.test.js
+      - run: bun run test:nextjs-rsc
+        env:
+          RESCRIPT_PACKAGE: 63a47ff297b39485d4bad01a27d5c90d15c03953
+          RESCRIPT_SCENARIO: all
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: nextjs-rsc-8904-63a47ff
+          path: artifacts/nextjs-rsc
